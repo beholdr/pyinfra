@@ -1,0 +1,16 @@
+{
+  "name": "pyinfra",
+  "image": "mcr.microsoft.com/devcontainers/python:3-3.14-trixie",
+  "postCreateCommand": "pip install -r requirements.txt",
+  "features": {
+    "ghcr.io/eitsupi/devcontainer-features/go-task:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "EditorConfig.EditorConfig",
+        "task.vscode-task"
+      ]
+    }
+  }
+}

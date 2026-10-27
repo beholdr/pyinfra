@@ -1,0 +1,30 @@
+version: 2
+
+locations:
+  backupdata:
+    from:
+      - /srv/_dump
+      # - /srv/app/shared/storage/app/public
+    to:
+      - yandex
+    cron: '5 3 * * 1-6' # https://crontab.guru/#5_3_*_*_1-6
+    # hooks:
+    #   before:
+    #     - docker exec -t app-pgsql-1 pg_dump -c -U app app | gzip > /srv/_dump/app.sql.gz
+    forget: prune
+    options:
+      forget:
+        keep-last: 7
+      # backup:
+      #   exclude:
+      #     - /srv/vault/volumes
+
+backends:
+  yandex:
+    type: s3
+    path: https://storage.yandexcloud.net/{{ backup_bucket }}
+    key: SECRET_CHANGE_ME
+    env:
+      AWS_ACCESS_KEY_ID: {{ host.data.YANDEX_S3_ACCESS_KEY }}
+      AWS_SECRET_ACCESS_KEY: {{ host.data.YANDEX_S3_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: ru-central1
